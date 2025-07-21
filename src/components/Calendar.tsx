@@ -4,6 +4,7 @@ import { useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
+import rrulePlugin from "@fullcalendar/rrule";
 import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction"; // drag & drop / select
 import { DateSelectArg, EventDropArg, EventInput } from "@fullcalendar/core";
 import { v4 as uuid } from "uuid";
@@ -18,9 +19,33 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
+const DEFAULT_EVENTS = [
+  {
+    title: "Bi-weekly Sync",
+    // every other Tuesday at 14:00 starting Aug 6 2025:
+    rrule: {
+      freq: "weekly",
+      interval: 2,
+      byweekday: ["tu"],
+      dtstart: "2025-08-06T14:00:00",
+    },
+    duration: "01:00", // hh:mm if you want an end time
+  },
+  {
+    title: "Last weekday of each month",
+    rrule: {
+      freq: "monthly",
+      byweekday: ["mo", "tu", "we", "th", "fr"],
+      bysetpos: -1, // last occurrence
+      dtstart: "2025-07-31T09:00:00",
+    },
+    duration: "02:00",
+  },
+];
+
 export default function CalendarPage() {
   /* calendar data */
-  const [events, setEvents] = useState<EventInput[]>([]);
+  const [events, setEvents] = useState<EventInput[]>(DEFAULT_EVENTS);
 
   /* dialog + form state */
   const [open, setOpen] = useState(false);
@@ -78,7 +103,12 @@ export default function CalendarPage() {
   return (
     <>
       <FullCalendar
-        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+        plugins={[
+          dayGridPlugin,
+          timeGridPlugin,
+          interactionPlugin,
+          rrulePlugin,
+        ]}
         initialView="dayGridMonth" // ① default month grid
         selectable
         editable // ② enable drag & drop

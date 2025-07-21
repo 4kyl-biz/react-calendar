@@ -16,6 +16,7 @@
     "@fullcalendar/interaction": "^6.1.18",
     "@fullcalendar/list": "^6.1.18",
     "@fullcalendar/react": "^6.1.18",
+    "@fullcalendar/rrule": "^6.1.18",
     "@fullcalendar/timegrid": "^6.1.18",
     "@radix-ui/react-avatar": "^1.1.10",
     "@radix-ui/react-dialog": "^1.1.14",
@@ -28,6 +29,7 @@
     "next": "15.4.2",
     "react": "19.1.0",
     "react-dom": "19.1.0",
+    "rrule": "^2.8.1",
     "tailwind-merge": "^3.3.1",
     "uuid": "^11.1.0"
   },
